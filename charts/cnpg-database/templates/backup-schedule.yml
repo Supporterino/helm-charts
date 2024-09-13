@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: {{.Values.global.clusterName}}-backup
+spec:
+  schedule: {{.Values.backup.schedule}}
+  backupOwnerReference: self
+  cluster:
+    name: {{.Values.global.clusterName}}

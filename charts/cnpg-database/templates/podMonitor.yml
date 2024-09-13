@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gitlab-ci-db
+  labels:
+    cnpg.io/cluster: gitlab-ci-db
+    app.kubernetes.io/monitored: "true"
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/cluster: gitlab-ci-db
+  podMetricsEndpoints:
+  - port: metrics

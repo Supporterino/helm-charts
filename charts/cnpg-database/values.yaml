@@ -1,0 +1,33 @@
+global:
+  clusterName: test-db
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.3-7
+
+cluster:
+  spec:
+    instances: 2
+    primaryUpdateStrategy: unsupervised
+    primaryUpdateMethod: switchover
+  backup:
+    schedule: "0 10 0 * * *"
+    endpointURL: http://minio.minio.svc.cluster.local:9000
+    retentionPolicy: "30d"
+    s3_access_key_id: 
+    s3_access_secret_key:
+  storage:
+    storageClass: nfs
+    size: 10Gi
+
+
+authentication:
+  clusterSuperUser:
+    enable: true
+    username:
+    password:
+  clusterUser:
+    username:
+    password:
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 100m

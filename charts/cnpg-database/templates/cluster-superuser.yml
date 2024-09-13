@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  password: {{.Values.authentication.clusterSuperUser.password}}
+  username: {{.Values.authentication.clusterSuperUser.username}}
+kind: Secret
+metadata:
+  name: {{.Values.global.clusterName}}-cluster-superuser
+type: kubernetes.io/basic-auth

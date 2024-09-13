@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{.Values.global.clusterName}}-backup-creds
+data:
+  ACCESS_KEY_ID: {{.Values.backup.s3_access_key_id}}
+  ACCESS_SECRET_KEY: {{.Values.backup.s3_access_key_secret_key}}
