@@ -1,11 +1,3 @@
-{{- define "insertDictionary" -}}
-{{- $dict := .Values.postgresql.parameters -}}
-{{- range $key, $value := $dict -}}
-{{ $key }}: {{ $value }}
-{{- end -}}
-{{- end -}}
-
-
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -27,11 +19,7 @@ spec:
   postgresql:
     parameters:
       shared_buffers: {{ include "cnpg-database.sharedBufferSize" . }}
-      {{ include "insertDictionary" . }}
-
-      # pg_stat_statements.max: {{.Values.postgresql.parameters.pg_stat_statementsMax}}
-      # pg_stat_statements.track: {{.Values.postgresql.parameters.pg_stat_statementsTrack}}
-      # auto_explain.log_min_duration: {{.Values.postgresql.parameters.auto_explainLog_min_duration}}
+      {{- toYaml .Values.postgresql.parameters | nindent 6 }}
 
   bootstrap:
     initdb:
