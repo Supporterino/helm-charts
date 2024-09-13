@@ -60,3 +60,28 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Calculate postgres shared buffers
+*/}}
+{{- define "cnpg-database.sharedBufferSize" -}}
+{{- $memory := .Values.resources.requests.memory -}}
+{{- if hasSuffix "Gi" $memory -}}
+  {{- $valueGi := trimSuffix "Gi" $memory | int -}}
+  {{- $resultGB := mulf $valueGi 0.25 -}}
+  {{- if lt $resultGB 1.0 -}}
+    {{- $resultMB := mulf $resultGB 1000 | int -}}
+    {{- printf "%dMB" $resultMB -}}
+  {{- else -}}
+    {{- $result := round $resultGB 0 | int -}}
+    {{- printf "%dGB" $result -}}
+  {{- end -}}
+{{- else if hasSuffix "Mi" $memory -}}
+  {{- $valueMi := trimSuffix "Mi" $memory | int -}}
+  {{- $resultMB := mulf $valueMi 0.25 -}}
+  {{- $result := round $resultMB 0 | int -}}
+  {{- printf "%dMB" $result -}}
+{{- else -}}
+  {{- printf "128MB" -}}
+{{- end -}}
+{{- end -}}

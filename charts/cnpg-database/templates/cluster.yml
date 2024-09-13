@@ -1,60 +1,60 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{.Values.global.clusterName}}
+  name: {{ .Values.clusterName }}
 spec:
-  description: "Database for" {{.Values.global.clusterName}}
-  imageName: {{.Values.global.imageName}}
-  instances: {{.Values.cluster.spec.instances}}
+  description: Database for {{ .Values.clusterName }}
+  imageName: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+  instances: {{ .Values.cluster.spec.instances }}
   postgresUID: 65534
   postgresGID: 65534
   startDelay: 300
   stopDelay: 300
-  primaryUpdateStrategy: {{.Values.cluster.spec.primaryUpdateStrategy}}
-  primaryUpdateMethod: {{.Values.cluster.spec.primaryUpdateMethod}}
+  primaryUpdateStrategy: {{ .Values.cluster.spec.primaryUpdateStrategy }}
+  primaryUpdateMethod: {{ .Values.cluster.spec.primaryUpdateMethod }}
   enablePDB: true
 
   postgresql:
     parameters:
-      shared_buffers: 256MB
+      shared_buffers: {{ include "cnpg-database.sharedBufferSize" . }}
       pg_stat_statements.max: '10000'
       pg_stat_statements.track: all
       auto_explain.log_min_duration: '10s'
 
   bootstrap:
     initdb:
-      database: gitlabhq_ci
-      owner: gitlab
+      database: {{ .Values.databaseName }}
+      owner: {{ .Values.authentication.clusterUser.username }}
       secret:
-        name: {{.Values.global.clusterName}}-cluster-user
+        name: {{ .Values.clusterName }}-cluster-user
 
-  enableSuperuserAccess: {{.Values.authentication.clusterSuperUser.enable}}
+  enableSuperuserAccess: {{ .Values.authentication.clusterSuperUser.enable }}
   superuserSecret:
-    name: {{.Values.global.clusterName}}-cluster-superuser
+    name: {{ .Values.clusterName }}-cluster-superuser
 
   storage:
-    storageClass: {{.Values.cluster.storage.storageClass}}
-    size: {{.Values.cluster.storage.size}}
+    storageClass: {{ .Values.cluster.storage.storageClass }}
+    size: {{ .Values.cluster.storage.size }}
 
   backup:
     barmanObjectStore:
-      destinationPath: s3://{{.Values.global.clusterName}}/
-      endpointURL: {{.Values.cluster.backup.endpointURL}}
+      destinationPath: s3://{{ .Values.clusterName }}/
+      endpointURL: {{ .Values.cluster.backup.endpointURL }}
       s3Credentials:
         accessKeyId:
-          name: {{.Values.global.clusterName}}-backup-creds
+          name: {{ .Values.clusterName }}-backup-creds
           key: ACCESS_KEY_ID
         secretAccessKey:
-          name: {{.Values.global.clusterName}}-backup-creds
+          name: {{ .Values.clusterName }}-backup-creds
           key: ACCESS_SECRET_KEY
       wal:
         compression: gzip
       data:
         compression: gzip
         jobs: 2
-    retentionPolicy: {{.Values.cluster.backup.retentionPolicy}}
+    retentionPolicy: {{ .Values.cluster.backup.retentionPolicy }}
 
   resources:
     requests:
-      memory: {{.Values.resources.requests.memory}}
-      cpu: {{.Values.resources.requests.cpu}}
+      memory: {{ .Values.resources.requests.memory }}
+      cpu: {{ .Values.resources.requests.cpu }}

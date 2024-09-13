@@ -1,8 +1,8 @@
 apiVersion: v1
 data:
-  username: {{.Values.authentication.clusterUser.username}}
-  password: {{.Values.authentication.clusterUser.password}}
+  username: {{ .Values.authentication.clusterUser.username }}
+  password: {{ .Values.authentication.clusterUser.password }}
 kind: Secret
 metadata:
-  name: {{.Values.global.clusterName}}-cluster-user
+  name: {{ .Values.clusterName }}-cluster-user
 type: kubernetes.io/basic-auth
