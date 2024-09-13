@@ -1,0 +1,57 @@
+---
+commitizen:
+  annotated_tag: true
+  bump_message: "release $current_version \u2192 $new_version [skip-ci]"
+  customize:
+    bump_map:
+      break: MAJOR
+      chore: MINOR
+      feat: MINOR
+      fix: PATCH
+      hotfix: PATCH
+      perf: MINOR
+    bump_pattern: ^(break|feat|chore|fix|hotfix|perf|ci|build)
+    change_type_map:
+      bug fix: fix
+      feature: feat
+      refactor: refactor
+    message_template: '{{change_type}}{% if scope %}({{scope}}){% endif %}: {{message}}'
+    questions:
+    - choices:
+      - name: 'fix: A bug fix. Correlates with PATCH in SemVer'
+        value: fix
+      - name: 'feat: A new feature. Correlates with MINOR in SemVer'
+        value: feat
+      - name: 'docs: Documentation only changes'
+        value: docs
+      - name: 'style: Changes that do not affect the meaning of the code (white-space,
+          formatting, missing semi-colons, etc)'
+        value: style
+      - name: 'refactor: A code change that neither fixes a bug nor adds a feature'
+        value: refactor
+      - name: 'perf: A code change that improves performance'
+        value: perf
+      - name: 'build: Changes that affect the build system or external dependencies
+          (example scopes: pip, docker, npm)'
+        value: build
+      - name: 'ci: Changes to our CI configuration files and scripts (example scopes:
+          GitLabCI)'
+        value: ci
+      message: Select the type of change you are committing
+      name: change_type
+      type: list
+    - message: 'What is the scope of this change? (class or file name): (press [enter]
+        to skip)'
+      name: scope
+      type: input
+    - message: 'Write a short and imperative summary of the code changes: (lower case
+        and no period)'
+      name: message
+      type: input
+  name: cz_customize
+  tag_format: $major.$minor.$patch$prerelease
+  update_changelog_on_bump: true
+  version: 0.1.0
+  version_files:
+  - Chart.yaml:version
+  version_scheme: semver

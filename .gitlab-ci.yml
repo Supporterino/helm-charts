@@ -1,0 +1,8 @@
+include:
+  - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@1.4.1
+    inputs:
+      charts: ["cnpg-database"]
+      registry: registry.supporterino.de
+      library: supporterino
+      username: robot$gitlab_ci
+      password: $CI_USER_PASSWORD
