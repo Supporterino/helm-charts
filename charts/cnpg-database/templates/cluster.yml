@@ -1,25 +1,37 @@
+{{- define "insertDictionary" -}}
+{{- $dict := .Values.postgresql.parameters -}}
+{{- range $key, $value := $dict -}}
+{{ $key }}: {{ $value }}
+{{- end -}}
+{{- end -}}
+
+
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: {{ .Values.clusterName }}
+labels:
+  {{- include "cnpg-database.labels" . | nindent 4 }}
 spec:
   description: Database for {{ .Values.clusterName }}
   imageName: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
   instances: {{ .Values.cluster.spec.instances }}
-  postgresUID: 65534
-  postgresGID: 65534
+  postgresUID: {{.Values.cluster.spec.postgresUID}}
+  postgresGID: {{.Values.cluster.spec.postgresGID}}
   startDelay: 300
   stopDelay: 300
   primaryUpdateStrategy: {{ .Values.cluster.spec.primaryUpdateStrategy }}
   primaryUpdateMethod: {{ .Values.cluster.spec.primaryUpdateMethod }}
-  enablePDB: true
+  enablePDB: {{.Values.cluster.spec.enablePDB}}
 
   postgresql:
     parameters:
       shared_buffers: {{ include "cnpg-database.sharedBufferSize" . }}
-      pg_stat_statements.max: '10000'
-      pg_stat_statements.track: all
-      auto_explain.log_min_duration: '10s'
+      {{ include "insertDictionary" . }}
+
+      # pg_stat_statements.max: {{.Values.postgresql.parameters.pg_stat_statementsMax}}
+      # pg_stat_statements.track: {{.Values.postgresql.parameters.pg_stat_statementsTrack}}
+      # auto_explain.log_min_duration: {{.Values.postgresql.parameters.auto_explainLog_min_duration}}
 
   bootstrap:
     initdb:

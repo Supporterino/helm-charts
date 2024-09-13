@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ .Values.clusterName }}-backup-creds
+labels:
+  {{- include "cnpg-database.labels" . | nindent 4 }}
 data:
   ACCESS_KEY_ID: {{ .Values.cluster.backup.s3_access_key_id }}
   ACCESS_SECRET_KEY: {{ .Values.cluster.backup.s3_access_key_secret_key }}
