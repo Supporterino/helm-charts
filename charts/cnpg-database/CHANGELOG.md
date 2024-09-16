@@ -1,3 +1,10 @@
+## 0.6.0 (2024-09-16)
+
+
+- update helm documentation
+- chore(ci): ⬆ bump version
+- chore(ci): :arrow_up: bump version
+
 ## 0.5.0 (2024-09-16)
 
 
