@@ -1,3 +1,11 @@
+## 0.5.0 (2024-09-16)
+
+
+- Merge branch 'renovate/configure' into 'main'
+- chore: Configure Renovate
+- See merge request management/helm-charts!1
+- Add renovate.json
+
 ## 0.4.0 (2024-09-13)
 
 
