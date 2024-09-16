@@ -1,8 +1,9 @@
 include:
-  - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@0.5.1
+  - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@0.6.2
     inputs:
       charts: ["cnpg-database"]
       registry: registry.supporterino.de
       library: supporterino
       username: robot$gitlab_ci
       password: $CI_USER_PASSWORD
+      docs_commit_message: "docs: :memo: update helm README"
