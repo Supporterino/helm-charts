@@ -2,6 +2,21 @@
 commitizen:
   annotated_tag: true
   bump_message: "chore: :bookmark: release $current_version \u2192 $new_version [skip-ci]"
+  customize:
+    bump_map:
+      break: MAJOR
+      chore: MINOR
+      feat: MINOR
+      fix: PATCH
+      hotfix: PATCH
+      perf: MINOR
+    bump_pattern: ^(break|feat|chore|fix|hotfix|perf|ci|build)
+    change_type_map:
+      bug fix: fix
+      feature: feat
+      refactor: refactor
+    message_template: '{{change_type}}{% if scope %}({{scope}}){% endif %}: {{message}}'
+
   name: cz_customize
   tag_format: $major.$minor.$patch$prerelease
   update_changelog_on_bump: true
