@@ -1,5 +1,5 @@
 include:
-  - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@0.3.0
+  - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@0.5.0
     inputs:
       charts: ["cnpg-database"]
       registry: registry.supporterino.de
