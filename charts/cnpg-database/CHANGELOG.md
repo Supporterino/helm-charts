@@ -1,3 +1,13 @@
+## 0.7.0 (2024-09-16)
+
+
+- chore(dips): :arrow_up: bump version
+- fix(cnpg-database): :bug: remove wrong key
+- fix(cnpg-database): :bug: set dummy values
+- fix(cnpg-database): :bug: also enquote
+- fix(cnpg-database): :bug: encode secrets
+- update helm documentation
+
 ## 0.6.0 (2024-09-16)
 
 
