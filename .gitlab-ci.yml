@@ -6,4 +6,4 @@ include:
       library: supporterino
       username: robot$gitlab_ci
       password: $CI_USER_PASSWORD
-      docs_commit_message: "docs: :memo: update helm README"
+      docs_commit_message: "docs: :memo: update helm README [skip-ci]"
