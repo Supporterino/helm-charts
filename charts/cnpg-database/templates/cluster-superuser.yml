@@ -1,10 +1,10 @@
 apiVersion: v1
-labels:
-  {{- include "cnpg-database.labels" . | nindent 4 }}
 data:
   password: {{ .Values.authentication.clusterSuperUser.password | b64enc }}
   username: {{ .Values.authentication.clusterSuperUser.username | b64enc }}
 kind: Secret
 metadata:
   name: {{ .Values.clusterName }}-cluster-superuser
+  labels:
+    {{- include "cnpg-database.labels" . | nindent 4 }}
 type: kubernetes.io/basic-auth

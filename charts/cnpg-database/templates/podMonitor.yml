@@ -5,7 +5,7 @@ metadata:
   labels:
     cnpg.io/cluster: {{ .Values.clusterName }}
     app.kubernetes.io/monitored: "true"
-  {{- include "cnpg-database.labels" . | nindent 4 }}
+    {{- include "cnpg-database.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
