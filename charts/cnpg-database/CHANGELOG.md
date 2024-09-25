@@ -1,3 +1,18 @@
+## 0.8.0+cnpg-database (2024-09-25)
+
+
+- refactor(cz): :recycle: set tag format for multiple tags
+- chore(deps): :arrow_up: bump version
+- fix(labels): :bug: put label to correct place
+- Update .gitlab-ci.yml file
+- Update .gitlab-ci.yml file
+- fix(cz): :bug: readd needed part
+- refactor(cz): :recycle: shrink down cz file
+- fix(ci): :bug: disbale CI on docs update
+- Update .gitlab-ci.yml file
+- docs: :memo: update helm README
+- Update .gitlab-ci.yml file
+
 ## 0.7.0 (2024-09-16)
 
 
