@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cnpg-database
-description: A Helm chart for Kubernetes
+description: A Helm chart for a cnpg operator database
 
 # A chart can be either an 'application' or a 'library' chart.
 #
