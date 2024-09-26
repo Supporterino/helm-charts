@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "shlink.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "shlink.selectorLabels" . | nindent 6 }}
