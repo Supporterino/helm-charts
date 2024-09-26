@@ -1,3 +1,19 @@
+## 1.5.0+cnpg-database (2024-09-26)
+
+
+- chore: :bookmark: release 1.4.0 → 1.5.0 [skip-ci]
+- docs: :memo: update helm README [skip-ci]
+- docs(shlink): :memo: add chart description
+- docs(cnpg-database): :memo: add chart description
+- chore(deps): :arrow_up: bump version
+- docs: :memo: update helm README [skip-ci]
+- chore(deps): :arrow_up: increase version
+
+## 0.2.0+shlink (2024-09-26)
+
+
+- chore: :bookmark: release 0.1.0 → 0.2.0 [skip-ci]
+
 ## 1.4.0+cnpg-database (2024-09-26)
 
 
