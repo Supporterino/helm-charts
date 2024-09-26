@@ -1,3 +1,9 @@
+## 1.3.0+cnpg-database (2024-09-26)
+
+
+- docs: :memo: update helm README [skip-ci]
+- chore(deps): :arrow_up: bump version
+
 ## 1.2.0+cnpg-database (2024-09-26)
 
 
