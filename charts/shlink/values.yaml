@@ -1,0 +1,174 @@
+replicaCount: 1
+
+image:
+  repository: shlinkio/shlink
+  pullPolicy: IfNotPresent
+  tag: ""
+
+# -- Application specific settings. See official documentation for more insight.
+# https://shlink.io/documentation/environment-variables/
+shlink:
+  # -- Default domain name for your shlink instance
+  domain: ''
+  # -- Tell application if it is running as http or https. Actual https needs to be impelmented yourself. Possible by ingress in this chart
+  https: true
+  # -- Licence key for geolite for tracking.
+  # https://shlink.io/documentation/geolite-license-key/
+  geolite_license_key: ''
+  # -- The base path from which you plan to serve Shlink, in case you don’t want to serve it from the root of the domain. It has to start with a bar, like /shlink. Defaults to ''.
+  base_path: ''
+  # -- Timezone of server for tracking purpose.
+  # PHP format https://www.php.net/manual/en/timezones.php
+  timezone: 'UTC'
+  # -- Set different cache key if shlink is sharing a redis instance with another instance
+  cache_namespace: 'Shlink'
+  # --  The maximum amount of memory that every Shlink process can use. You can provide a number, which will be the amount of memory in bytes, or a number followed by K for kilobytes, M for megabytes or G for gigabytes. You can also provide -1 to set no memory limit. Defaults to 512M.
+  memory_limit: ''
+  # -- An API key that will be created once during container start-up, with admin permissions.
+  initial_api_key: ''
+  # -- If provided with value true, it will skip the initial GeoLite2 db file download, speeding-up the container start-up. As a side effect, first visits on this container will remain un-located until the file finishes downloading in background.
+  skip_initial_geolite_download: true
+
+shortening:
+  # -- The length you want generated short codes to have. It defaults to 5 and has to be at least 4, so any value smaller than that will fall back to 4.
+  code_length: 5
+  # -- The amount of visits on short URLs which will not allow them to be deleted. If not provided, this restriction will be disabled.
+  delete_threshold: ''
+  # -- Used to automatically resolve the short URL’s title based on the <title /> tag in the long URL. Defaults to true.
+  resolve_titles: true
+  # -- Allows to create and handle multi-segment custom slugs when true is provided. Default value is false. See multi-segment custom slugs for more information.
+  # https://shlink.io/documentation/some-features/#multi-segment-custom-slugs
+  multi_segment: false
+  # -- strict or loose. Determines how to match short URLs. Defaults to strict. See short URLs mode for more information.
+  # https://shlink.io/documentation/some-features/#short-urls-mode
+  url_mode: strict
+
+# -- Define external database driver
+externalDatabase:
+  enabled: false
+  # -- mysql, maria, postgres, mssql
+  driver: 'postgres'
+  # -- The database name to be used when using an external database driver. Defaults to shlink.
+  name: shlink
+  # -- The username credential to be used when using an external database driver.
+  user: shlink
+  # -- The password credential to be used when using an external database driver.
+  password: ''
+  # -- The host name of the database server when using an external database driver.
+  host: ''
+  # -- The port in which the database service is running when using an external database driver. Default value is based on the value provided for driver
+  port: ''
+
+# -- Settings for shlinks tracking
+# https://shlink.io/documentation/tracking-visits/
+tracking:
+  # -- Tells if visits tracking should be completely disabled. Defaults to false
+  disabled: false
+  # -- Tells if orphan visits should be tracked or not. Defaults to true
+  orphan_visits: true
+  # -- The name of a query param that can be used to visit short URLs avoiding the visit to be tracked. This feature won’t be available if no value is provided
+  disable_param: ''
+  # -- A comma-separated list of IP address patterns from which all tracking should be disabled. It allows providing fixed IP addresses (100.200.80.40), CIDR blocks (192.168.10.0/24) or wildcard patterns (11.22.*.*)
+  disabled_ips: ''
+  # -- Tells if tracking of the IP address (and therefore visitors location) should be disabled. Defaults to false
+  disable_ip: false
+  # -- Tells if tracking of the referrer should be disabled. Defaults to false
+  disable_referer: false
+  # -- Tells if tracking of the user agent should be disabled. Defaults to false
+  disable_ua: false
+  # -- Tells if IP addresses from visitors should be obfuscated before storing them in the database. Default value is true
+  anonymize_ips: true
+
+# -- Redis integration
+redis:
+  enabled: false
+  # -- A comma-separated list of redis servers which Shlink uses for shared locks, cache, and optionally real-time updates through pub/sub (make sure to include the port number and credentials for every server).
+  servers: ''
+  # -- The name of the sentinel service if you want to use redis sentinel. If this value is provided, the servers provided in REDIS_SERVERS will be considered sentinel instances.
+  sentinel: ''
+  # -- Tells if the configured redis instance/cluster should also be used to publish real-time updates via redis pub/sub. Defaults to false.
+  real_time_updates: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /rest/health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /rest/health
+    port: http
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "shlink.fullname" . }}
+  labels:
+    {{- include "shlink.labels" . | nindent 4 }}
+data:
+    # primary application
+    PORT: {{ .Values.service.port }}
+    {{ if .Values.shlink.initial_api_key }}INITIAL_API_KEY: {{ .Values.shlink.initial_api_key }}{{ end }}
+    DEFAULT_DOMAIN: {{ .Values.shlink.domain }}
+    IS_HTTPS_ENABLED: {{ .Values.shlink.https }}
+    {{ if .Values.shlink.geolite_license_key }}GEOLITE_LICENSE_KEY: {{ .Values.shlink.geolite_license_key }}{{ end }}
+    BASE_PATH: {{ .Values.shlink.base_path }}
+    TIMEZONE: {{ .Values.shlink.timezone }}
+    CACHE_NAMESPACE: {{ .Values.shlink.cache_namespace }}
+    {{ if .Values.shlink.memory_limit }}MEMORY_LIMIT: {{ .Values.shlink.memory_limit }}{{ end }}
+    SKIP_INITIAL_GEOLITE_DOWNLOAD: {{ .Values.shlink.skip_initial_geolite_download }}
+    # shortening
+    DEFAULT_SHORT_CODES_LENGTH: {{ .Values.shortening.code_length }}
+    {{ if .Values.shortening.delete_threshold }}DELETE_SHORT_URL_THRESHOLD: {{ .Values.shortening.delete_threshold }}{{ end }}
+    AUTO_RESOLVE_TITLES: {{ .Values.shortening.resolve_titles }}
+    MULTI_SEGMENT_SLUGS_ENABLED: {{ .Values.shortening.multi_segment }}
+    SHORT_URL_MODE: {{ .Values.shortening.url_mode }}
+    # database
+    {{- if .Values.externalDatabase.enabled }}
+    DB_DRIVER: {{ .Values.externalDatabase.driver }}
+    DB_NAME: {{ .Values.externalDatabase.name }}
+    DB_USER: {{ .Values.externalDatabase.user }}
+    DB_PASSWORD: {{ .Values.externalDatabase.password }}
+    DB_HOST: {{ .Values.externalDatabase.host }}
+    {{ if .Values.externalDatabase.port }}DB_PORT: {{ .Values.externalDatabase.port }}{{ end }}
+    {{- end }}
+    # tracking
+    DISABLE_TRACKING: {{ .Values.tracking.disabled }}
+    TRACK_ORPHAN_VISITS: {{ .Values.tracking.orphan_visits }}
+    {{ if .Values.tracking.disable_param }}DISABLE_TRACK_PARAM: {{ .Values.tracking.disable_param }}{{ end }}
+    {{ if .Values.tracking.disabled_ips }}DISABLE_TRACKING_FROM: {{ .Values.tracking.disabled_ips }}{{ end }}
+    DISABLE_IP_TRACKING: {{ .Values.tracking.disable_ip }}
+    DISABLE_REFERRER_TRACKING: {{ .Values.tracking.disable_referer }}
+    DISABLE_UA_TRACKING: {{ .Values.tracking.disable_ua }}
+    ANONYMIZE_REMOTE_ADDR: {{ .Values.tracking.anonymize_ips }}
+    {{- if .Values.redis.enabled }}
+    REDIS_SERVERS: {{ .Values.redis.servers }}
+    {{ if .Values.redis.sentinel }}REDIS_SENTINEL_SERVICE: {{ .Values.redis.sentinel }}{{ end }}
+    REDIS_PUB_SUB_ENABLED: {{ .Values.redis.real_time_updates }}
+    {{- end }}

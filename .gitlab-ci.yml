@@ -1,7 +1,7 @@
 include:
   - component: $CI_SERVER_FQDN/ci-cd-components/helm/external-oci@0.7.4
     inputs:
-      charts: ["cnpg-database"]
+      charts: ["cnpg-database", "shlink"]
       registry: registry.supporterino.de
       library: supporterino
       username: robot$gitlab_ci
