@@ -1,3 +1,11 @@
+## 1.2.0+cnpg-database (2024-09-26)
+
+
+- docs: :memo: update helm README [skip-ci]
+- fix(shlink): :bug: remove not used hpa vars
+- fix(shlink): :bug: add missing helpers file
+- feat(shlink): :sparkles: add initial shlink chart
+
 ## 1.1.0+cnpg-database (2024-09-25)
 
 
